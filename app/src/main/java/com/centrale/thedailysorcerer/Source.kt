@@ -31,9 +31,4 @@ class Source (var id: String?, var name: String?):Parcelable {
         this.name = name
     }*/
 
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
 }
