@@ -16,7 +16,7 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
-    val MainActivityTAG:String = "Main Activity"
+    val TAG:String = "Main Activity"
     val uriListSources:String = "https://newsapi.org/v2/sources?apiKey=cfe66a38eadc47448a0eb945629ba205&language=fr"
     val uriContentSources:String = "https://newsapi.org/v2/everything?apiKey=cfe66a38eadc47448a0eb945629ba205&language=fr&sources=google-news-fr"
 
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             Response.Listener<String> { response ->
 
                 var strResp = response.toString()
-                Log.d("3-Fetched Data", strResp)
+                Log.d(TAG, strResp)
                 val result = JSONObject(strResp)
                 val listSources: JSONArray = result.getJSONArray("sources")
                 val allSourcesList: ArrayList<Source> = arrayListOf<Source>()
@@ -70,12 +70,14 @@ class MainActivity : AppCompatActivity() {
                     allSourcesList.add(sourceObj)
                 }
 
-                val monIntent = Intent(this, ListActivity::class.java)
+                val monIntent = Intent(this, ListActivity::class.java).apply {
+                    putExtra("list", allSourcesList)
+                }
                 startActivity(monIntent)
             },
             Response.ErrorListener {
                 //Toast.makeText(this, "That didn't work!", Toast.LENGTH_SHORT).show()
-                Log.d("Fetched Data","That didn't work!")
+                Log.d(TAG,"That didn't work!")
                 showAlertDialog()
             }
         ){

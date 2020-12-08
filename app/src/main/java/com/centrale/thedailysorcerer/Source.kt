@@ -1,16 +1,21 @@
 package com.centrale.thedailysorcerer
 
-class Source (id: String?, name: String?) {
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-    private var id: String?
-    private var name: String?
+@Parcelize
+class Source (var id: String?, var name: String?):Parcelable {
+
+    //private var id: String?
+    //private var name: String?
 
     init {
         this.id = id
         this.name = name
     }
 
-    fun getId(): String? {
+    /*fun getId(): String? {
         return id
     }
 
@@ -24,5 +29,11 @@ class Source (id: String?, name: String?) {
 
     fun setName(name: String?) {
         this.name = name
+    }*/
+
+
+    override fun describeContents(): Int {
+        return 0
     }
+
 }
