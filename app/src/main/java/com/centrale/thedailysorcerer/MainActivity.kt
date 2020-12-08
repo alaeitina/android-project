@@ -2,6 +2,7 @@ package com.centrale.thedailysorcerer
 
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
@@ -11,6 +12,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONArray
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
@@ -53,12 +55,23 @@ class MainActivity : AppCompatActivity() {
         // Request a string response from the provided URL.
         val stringReq : StringRequest = object : StringRequest(
 
-            Request.Method.GET, uriContentSources,
+            Request.Method.GET, uriListSources,
             Response.Listener<String> { response ->
 
                 var strResp = response.toString()
-                val jsonArray: JSONArray = JSONArray(strResp)
                 Log.d("3-Fetched Data", strResp)
+                val result = JSONObject(strResp)
+                val listSources: JSONArray = result.getJSONArray("sources")
+                val allSourcesList: ArrayList<Source> = arrayListOf<Source>()
+
+                for (i in 0 until listSources.length()) {
+                    val sourceJson = listSources.getJSONObject(i)
+                    val sourceObj = Source(sourceJson.getString("id"), sourceJson.getString("name"))
+                    allSourcesList.add(sourceObj)
+                }
+
+                val monIntent = Intent(this, ListActivity::class.java)
+                startActivity(monIntent)
             },
             Response.ErrorListener {
                 //Toast.makeText(this, "That didn't work!", Toast.LENGTH_SHORT).show()
