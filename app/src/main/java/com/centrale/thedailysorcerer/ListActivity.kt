@@ -18,17 +18,17 @@ class ListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_list)
 
         val i = intent
-        val listSources:ArrayList<Source> = i.getParcelableArrayListExtra<Source?>("list") as ArrayList<Source>
+        val listSources:ArrayList<Source> = i.getParcelableArrayListExtra<Source>("list") as ArrayList<Source>
 
         val sourcesForSpinner: ArrayList<CharSequence> = arrayListOf<CharSequence>()
 
-        for (i in 0 until listSources.size) {
-            listSources[i].name?.let { sourcesForSpinner.add(it) }
+        for (j in 0 until listSources.size) {
+            listSources[j].name?.let { sourcesForSpinner.add(it) }
         }
 
         val spinner = findViewById<View>(R.id.spinner_sources) as Spinner
 
-        var aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, sourcesForSpinner)
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, sourcesForSpinner)
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = aa
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
