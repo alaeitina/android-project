@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     val TAG:String = "Main Activity"
     val uriListSources:String = "https://newsapi.org/v2/sources?apiKey=cfe66a38eadc47448a0eb945629ba205&language=fr"
-    val uriContentSources:String = "https://newsapi.org/v2/everything?apiKey=cfe66a38eadc47448a0eb945629ba205&language=fr&sources=google-news-fr"
+    //val uriContentSources:String = "https://newsapi.org/v2/everything?apiKey=cfe66a38eadc47448a0eb945629ba205&language=fr&sources=google-news-fr"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

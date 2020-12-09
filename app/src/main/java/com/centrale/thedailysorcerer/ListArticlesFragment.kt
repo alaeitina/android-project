@@ -1,40 +1,40 @@
 package com.centrale.thedailysorcerer
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import eu.corellis.centrale.activitylifecycle.CustomAdapter
 import layout.Article
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class ListArticlesFragment : Fragment() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ListNewsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ListNewsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    /*private var param1: String? = null
-    private var param2: String? = null
+    val TAG:String = "List Articles Fragment"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }*/
+    //var theseArticles: ArrayList<Article?> = arrayListOf<Article?>()
+
+
+    //private lateinit var recyclerView: RecyclerView
+    //var viewAdapter: RecyclerView.Adapter<*>? = null
+    //var viewManager: RecyclerView.LayoutManager? = null
+    //private lateinit var dataset: Array<String>
+    var dataset: ArrayList<Article?> = arrayListOf<Article?>()
+
+    //val adapter: CustomAdapter? = null
+
+    //var listener
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+
+    }
 
 
     override fun onCreateView(
@@ -45,11 +45,11 @@ class ListNewsFragment : Fragment() {
 
         Log.d(TAG, dataset.size.toString())
         // Inflate the layout for this fragment
-        val view:View = inflater.inflate(R.layout.fragment_list_news, container, false)
+        val view:View = inflater.inflate(R.layout.fragment_list_articles, container, false)
 
-        Log.d(TAG, "viewAdapter being init")
-        viewManager = LinearLayoutManager(activity)
-        viewAdapter = CustomAdapter(dataset)
+
+        //viewManager = LinearLayoutManager(context)
+        //viewAdapter = CustomAdapter(dataset)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
             // use this setting to improve performance if you know that changes
@@ -57,13 +57,14 @@ class ListNewsFragment : Fragment() {
             setHasFixedSize(true)
 
             // use a linear layout manager
-            layoutManager = viewManager
+            layoutManager = LinearLayoutManager(context)
 
             // specify an viewAdapter (see also next example)
-            adapter = viewAdapter
+            adapter = CustomAdapter(dataset)
 
         }
 
+        Log.d(TAG, "Recycler View has been set up $recyclerView!!.toString()")
         //val context = view.context
         /*val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
@@ -73,13 +74,36 @@ class ListNewsFragment : Fragment() {
 
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d(TAG, "context : $context")
+    }
+
+
+    fun addArticle(article: Article) {
+        dataset.add(article)
+        Log.d(TAG, recyclerView.toString())
+        //recyclerView.adapter!!.notifyDataSetChanged()
+    }
+
+
+
+
     companion object {
         @JvmStatic
-        fun newInstance(/*param1: String, param2: String*/) = ListArticlesFragment()
+        fun newInstance() = ListArticlesFragment()
+        lateinit var recyclerView: RecyclerView
     }
 
     fun clearArticles() {
         dataset.clear()
+    }
+
+    fun showArticles(newArticles: ArrayList<Article?>) {
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = CustomAdapter(newArticles)
+        dataset = newArticles
+        Log.d(TAG, dataset.toString())
     }
 
 

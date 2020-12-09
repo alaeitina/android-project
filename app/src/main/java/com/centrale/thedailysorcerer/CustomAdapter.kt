@@ -10,7 +10,7 @@ import com.centrale.thedailysorcerer.R
 import layout.Article
 
 
-class CustomAdapter (private val dataSet: ArrayList<Article?>) :
+class CustomAdapter(private val dataSet: ArrayList<Article?>) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     /**
@@ -26,7 +26,6 @@ class CustomAdapter (private val dataSet: ArrayList<Article?>) :
         //val imgArticle: ImageView
 
         init {
-            v.setOnClickListener { Log.d(TAG, "Element $adapterPosition clicked.") }
             txtTitle = v.findViewById(R.id.txtTitle)
             txtAuthor = v.findViewById(R.id.txtAuthor)
             txtDate = v.findViewById(R.id.txtDate)
@@ -46,16 +45,14 @@ class CustomAdapter (private val dataSet: ArrayList<Article?>) :
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        Log.d(TAG, "Element $position set.")
-
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
         viewHolder.txtTitle.text = dataSet[position]?.title
         viewHolder.txtAuthor.text = dataSet[position]?.author
         viewHolder.txtDate.text = dataSet[position]?.date
-
-
     }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size

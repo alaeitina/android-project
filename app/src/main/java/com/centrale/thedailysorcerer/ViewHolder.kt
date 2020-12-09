@@ -16,7 +16,7 @@ class ViewHolder(v:View) : RecyclerView.ViewHolder(v) {
     //val imgArticle: ImageView
 
     init {
-        v.setOnClickListener { Log.d(TAG, "Element $adapterPosition clicked.") }
+
         txtTitle = v.findViewById(R.id.txtTitle)
         txtAuthor = v.findViewById(R.id.txtAuthor)
         txtDate = v.findViewById(R.id.txtDate)
