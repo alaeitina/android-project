@@ -10,7 +10,7 @@ import com.centrale.thedailysorcerer.R
 import layout.Article
 
 
-class CustomAdapter (private val dataSet: ArrayList<Article>) :
+class CustomAdapter (private val dataSet: ArrayList<Article?>) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     /**
@@ -50,9 +50,9 @@ class CustomAdapter (private val dataSet: ArrayList<Article>) :
 
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
-        viewHolder.txtTitle.text = dataSet[position].title
-        viewHolder.txtAuthor.text = dataSet[position].author
-        viewHolder.txtDate.text = dataSet[position].date
+        viewHolder.txtTitle.text = dataSet[position]?.title
+        viewHolder.txtAuthor.text = dataSet[position]?.author
+        viewHolder.txtDate.text = dataSet[position]?.date
 
 
     }

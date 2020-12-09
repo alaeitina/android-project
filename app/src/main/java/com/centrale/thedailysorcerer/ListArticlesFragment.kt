@@ -1,9 +1,17 @@
 package com.centrale.thedailysorcerer
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import eu.corellis.centrale.activitylifecycle.CustomAdapter
+import layout.Article
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,27 +42,45 @@ class ListNewsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        Log.d(TAG, dataset.size.toString())
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_news, container, false)
+        val view:View = inflater.inflate(R.layout.fragment_list_news, container, false)
+
+        Log.d(TAG, "viewAdapter being init")
+        viewManager = LinearLayoutManager(activity)
+        viewAdapter = CustomAdapter(dataset)
+
+        recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
+
+            // use a linear layout manager
+            layoutManager = viewManager
+
+            // specify an viewAdapter (see also next example)
+            adapter = viewAdapter
+
+        }
+
+        //val context = view.context
+        /*val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+        recyclerView.layoutManager = GridLayoutManager(activity, 2)
+        recyclerView.adapter = CustomAdapter(dataset)*/
+        return view
+
+
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ListNewsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(/*param1: String, param2: String*/) =
-            ListArticlesFragment()/*.apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }*/
+        fun newInstance(/*param1: String, param2: String*/) = ListArticlesFragment()
     }
+
+    fun clearArticles() {
+        dataset.clear()
+    }
+
+
 }

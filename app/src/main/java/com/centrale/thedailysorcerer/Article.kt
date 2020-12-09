@@ -15,4 +15,6 @@ class Article (var title: String?,
                var source: Source?) : Parcelable {
 
 
+
+
 }

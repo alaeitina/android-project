@@ -1,6 +1,5 @@
 package com.centrale.thedailysorcerer
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +12,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import eu.corellis.centrale.activitylifecycle.CustomAdapter
 import layout.Article
 import org.json.JSONArray
 import org.json.JSONObject
@@ -24,6 +24,8 @@ class ListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
+
+
 
         val i = intent
         val listSources:ArrayList<Source> = i.getParcelableArrayListExtra<Source>("list") as ArrayList<Source>
@@ -38,6 +40,15 @@ class ListActivity : AppCompatActivity() {
         val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, sourcesForSpinner)
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = aa
+
+        if(savedInstanceState == null) {
+            listFragment = ListArticlesFragment()
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.list_fragment, ListArticlesFragment.newInstance())
+                .commit()
+        }
+
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -46,10 +57,13 @@ class ListActivity : AppCompatActivity() {
                 id: Long
             ) {
 
+
                 thisSource = listSources.get(position)
                 thisPage = 1
-                clearArticles()
+                listFragment?.clearArticles()
                 getContent()
+
+                Log.d(TAG, "After get Content : "+listFragment!!.dataset.toString())
 
 
 
@@ -57,6 +71,8 @@ class ListActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+
+
 
 
     }
