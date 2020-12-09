@@ -1,13 +1,21 @@
 package com.centrale.thedailysorcerer
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import android. widget.Spinner
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import layout.Article
+import org.json.JSONArray
+import org.json.JSONObject
 
 class ListActivity : AppCompatActivity() {
 
@@ -19,7 +27,6 @@ class ListActivity : AppCompatActivity() {
 
         val i = intent
         val listSources:ArrayList<Source> = i.getParcelableArrayListExtra<Source>("list") as ArrayList<Source>
-
         val sourcesForSpinner: ArrayList<CharSequence> = arrayListOf<CharSequence>()
 
         for (j in 0 until listSources.size) {
@@ -38,15 +45,14 @@ class ListActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                /*if (nsf != null) {
-                    supportFragmentManager.beginTransaction().remove(nsf).commit()
-                    nsf = null
-                }
-                actualSource = sl.get(position)
-                actualPage = 1
-                loadedPage = 0
-                frag.clearArticles()
-                fetchNews()*/
+
+                thisSource = listSources.get(position)
+                thisPage = 1
+                clearArticles()
+                getContent()
+
+
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
