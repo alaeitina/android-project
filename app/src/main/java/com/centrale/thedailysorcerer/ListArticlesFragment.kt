@@ -2,6 +2,7 @@ package com.centrale.thedailysorcerer
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,14 +27,26 @@ class ListArticlesFragment : Fragment() {
     //private lateinit var dataset: Array<String>
     var dataset: ArrayList<Article?> = arrayListOf<Article?>()
 
+
     //val adapter: CustomAdapter? = null
 
     //var listener
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
 
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is CustomAdapter.OnArticleSelectedListener) {
+            listener = context
+            Log.d(TAG, "listener is : "+listener.toString())
+        } else {
+            Log.d(TAG, "listener is not")
+            throw RuntimeException(
+                context.toString()
+                        + " must implement OnListFragmentInteractionListener"
+            )
+        }
     }
 
 
@@ -48,8 +61,8 @@ class ListArticlesFragment : Fragment() {
         val view:View = inflater.inflate(R.layout.fragment_list_articles, container, false)
 
 
-        //viewManager = LinearLayoutManager(context)
-        //viewAdapter = CustomAdapter(dataset)
+        viewManager = LinearLayoutManager(context)
+        viewAdapter = CustomAdapter(dataset, listener)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
             // use this setting to improve performance if you know that changes
@@ -57,10 +70,10 @@ class ListArticlesFragment : Fragment() {
             setHasFixedSize(true)
 
             // use a linear layout manager
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = viewManager
 
             // specify an viewAdapter (see also next example)
-            adapter = CustomAdapter(dataset)
+            adapter = viewAdapter
 
         }
 
@@ -74,25 +87,15 @@ class ListArticlesFragment : Fragment() {
 
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.d(TAG, "context : $context")
-    }
-
-
-    fun addArticle(article: Article) {
-        dataset.add(article)
-        Log.d(TAG, recyclerView.toString())
-        //recyclerView.adapter!!.notifyDataSetChanged()
-    }
-
-
-
 
     companion object {
         @JvmStatic
         fun newInstance() = ListArticlesFragment()
+        lateinit var viewManager: LinearLayoutManager
+        lateinit var viewAdapter: CustomAdapter
         lateinit var recyclerView: RecyclerView
+        private lateinit var listener: CustomAdapter.OnArticleSelectedListener
+        private var listState: Parcelable? = null
     }
 
     fun clearArticles() {
@@ -101,9 +104,27 @@ class ListArticlesFragment : Fragment() {
 
     fun showArticles(newArticles: ArrayList<Article?>) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = CustomAdapter(newArticles)
+        recyclerView.adapter = CustomAdapter(newArticles, listener)
         dataset = newArticles
         Log.d(TAG, dataset.toString())
+    }
+
+
+    override fun onSaveInstanceState(bundle: Bundle) {
+        super.onSaveInstanceState(bundle)
+        Log.d(TAG, "we savin the instance")
+        // Save list bundle
+        val listState = recyclerView.layoutManager!!.onSaveInstanceState()
+        bundle.putParcelable("state", listState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "on resume")
+        if (listState != null) {
+            recyclerView.layoutManager!!.onRestoreInstanceState(listState)
+            Log.d(TAG, listState.toString())
+        }
     }
 
 

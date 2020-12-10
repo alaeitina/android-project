@@ -18,7 +18,7 @@ import layout.Article
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ListActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListener {
 
     val TAG:String = "ListActivity"
 
@@ -58,7 +58,7 @@ class ListActivity : AppCompatActivity() {
             listFragment = ListArticlesFragment()
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.list_fragment, ListArticlesFragment.newInstance())
+                .add(R.id.fragment, ListArticlesFragment.newInstance())
                 .commit()
         }
 
@@ -147,9 +147,17 @@ class ListActivity : AppCompatActivity() {
         queue.add(stringReq)
     }
 
-    /*override fun onArticleSelected() {
-        var detailsFragment =
-    }*/
+
+    override fun onArticleSelected(article: Article) {
+        val detailsFragment =
+            DetailsFragment.newInstance(article)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment, detailsFragment, "articleDetails")
+            .addToBackStack(null)
+            .commit()
+
+    }
 
 
 

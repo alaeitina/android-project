@@ -5,10 +5,25 @@
     android:layout_height="match_parent"
     tools:context=".DetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="no" />
+        android:id="@+id/txtTitle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textStyle="bold"
+        android:text="title"/>
+
+    <TextView
+        android:id="@+id/txtAuthor"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="author"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+
 
 </FrameLayout>

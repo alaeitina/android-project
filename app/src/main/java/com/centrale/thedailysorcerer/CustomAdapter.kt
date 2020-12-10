@@ -1,16 +1,16 @@
 package eu.corellis.centrale.activitylifecycle
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.centrale.thedailysorcerer.ListArticlesFragment
 import com.centrale.thedailysorcerer.R
 import layout.Article
 
 
-class CustomAdapter(private val dataSet: ArrayList<Article?>) :
+class CustomAdapter(private val dataSet: ArrayList<Article?>, var listener: OnArticleSelectedListener) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     /**
@@ -34,6 +34,8 @@ class CustomAdapter(private val dataSet: ArrayList<Article?>) :
 
     }
 
+
+
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view.
@@ -47,6 +49,7 @@ class CustomAdapter(private val dataSet: ArrayList<Article?>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
+        viewHolder.itemView.setOnClickListener { listener.onArticleSelected(dataSet[position]!!) }
         viewHolder.txtTitle.text = dataSet[position]?.title
         viewHolder.txtAuthor.text = dataSet[position]?.author
         viewHolder.txtDate.text = dataSet[position]?.date
@@ -58,6 +61,15 @@ class CustomAdapter(private val dataSet: ArrayList<Article?>) :
     override fun getItemCount() = dataSet.size
 
     companion object {
+        private lateinit var listener: OnArticleSelectedListener
         private val TAG = "CustomAdapter"
     }
+
+
+    public interface OnArticleSelectedListener{
+        fun onArticleSelected(article: Article)
+    }
+
+
+
 }

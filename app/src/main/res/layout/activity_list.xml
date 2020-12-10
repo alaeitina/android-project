@@ -17,7 +17,7 @@
         tools:ignore="MissingConstraints" />
 
     <fragment
-        android:id="@+id/list_fragment"
+        android:id="@+id/fragment"
         class="com.centrale.thedailysorcerer.ListArticlesFragment"
         android:layout_width="409dp"
         android:layout_height="577dp"
