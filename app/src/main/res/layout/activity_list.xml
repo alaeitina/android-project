@@ -19,10 +19,11 @@
     <fragment
         android:id="@+id/list_fragment"
         class="com.centrale.thedailysorcerer.ListArticlesFragment"
-        android:layout_width="413dp"
-        android:layout_height="623dp"
+        android:layout_width="409dp"
+        android:layout_height="577dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
