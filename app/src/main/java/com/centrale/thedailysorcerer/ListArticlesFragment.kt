@@ -25,7 +25,8 @@ class ListArticlesFragment : Fragment() {
     //var viewAdapter: RecyclerView.Adapter<*>? = null
     //var viewManager: RecyclerView.LayoutManager? = null
     //private lateinit var dataset: Array<String>
-    var dataset: ArrayList<Article?> = arrayListOf<Article?>()
+    //var dataset: ArrayList<Article?> = arrayListOf<Article?>()
+    private lateinit var bundleState:Bundle
 
 
     //val adapter: CustomAdapter? = null
@@ -76,8 +77,7 @@ class ListArticlesFragment : Fragment() {
             adapter = viewAdapter
 
         }
-
-        Log.d(TAG, "Recycler View has been set up $recyclerView!!.toString()")
+        retainInstance = true
         //val context = view.context
         /*val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
@@ -95,7 +95,9 @@ class ListArticlesFragment : Fragment() {
         lateinit var viewAdapter: CustomAdapter
         lateinit var recyclerView: RecyclerView
         private lateinit var listener: CustomAdapter.OnArticleSelectedListener
-        private var listState: Parcelable? = null
+        private lateinit var bundleState:Bundle
+        var dataset: ArrayList<Article?> = arrayListOf<Article?>()
+        //private var listState:Parcelable? = null
     }
 
     fun clearArticles() {
@@ -110,20 +112,22 @@ class ListArticlesFragment : Fragment() {
     }
 
 
-    override fun onSaveInstanceState(bundle: Bundle) {
-        super.onSaveInstanceState(bundle)
-        Log.d(TAG, "we savin the instance")
-        // Save list bundle
-        val listState = recyclerView.layoutManager!!.onSaveInstanceState()
-        bundle.putParcelable("state", listState)
+    override fun onPause() {
+        Log.d(TAG, "is on Pause")
+        Log.d(TAG, "dataset : $dataset")
+        super.onPause()
+        bundleState = Bundle()
+        bundleState.putParcelableArrayList("state", dataset)
+        Log.d(TAG, "dataset : $dataset")
     }
 
     override fun onResume() {
-        super.onResume()
         Log.d(TAG, "on resume")
-        if (listState != null) {
-            recyclerView.layoutManager!!.onRestoreInstanceState(listState)
-            Log.d(TAG, listState.toString())
+        super.onResume()
+        if (this::bundleState.isInitialized) {
+            Log.d(TAG, "dataset : $dataset")
+            dataset = bundleState.getParcelableArrayList<Article>("state") as ArrayList<Article?>
+            Log.d(TAG, "dataset : $dataset")
         }
     }
 

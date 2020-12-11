@@ -79,13 +79,14 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
 
                 //listFragment?.viewAdapter!!.notifyDataSetChanged()
 
-                Log.d(TAG, "After get Content : "+listFragment!!.dataset.toString())
 
 
 
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                Log.d(TAG, "No selected : $thisSource")
+            }
         }
 
 
@@ -119,7 +120,6 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
                         thisSource)
                     //Log.d(TAG, articleObj.toString())
                     theseArticles.add(articleObj)
-                    Log.d(TAG, "Inside fun : "+listFragment!!.dataset.toString())
                     //aa.notifyDataSetChanged()
 
                     //supportFragmentManager.beginTransaction().detach(listFragment!!).attach(listFragment!!).commit()
@@ -140,7 +140,6 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
             }
         }
 
-        Log.d(TAG, "In get Content : "+listFragment!!.dataset.toString())
 
 
 
