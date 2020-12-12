@@ -24,7 +24,7 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
 
     //my key : cfe66a38eadc47448a0eb945629ba205
 
-    val uriContentSources:String = "https://newsapi.org/v2/everything?apiKey=d31f5fa5f03443dd8a1b9e3fde92ec34&language=fr&sources="
+    val uriContentSources:String = "https://newsapi.org/v2/everything?apiKey=00baf9a536cd4b70b7850fc8c241ea90&language=fr&sources="
 
     var thisSource: Source? = null
     var thisPage:Int = 1
@@ -164,8 +164,14 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
 
 
     override fun onBottomReached() {
-        if (loading)
+        if (loading){
             return
+        }
+
+        if(thisPage==5){
+            Toast.makeText(this, "Vous avez chargé les 5 pages possibles.", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         thisPage++
         Log.d(TAG, "$thisPage")
