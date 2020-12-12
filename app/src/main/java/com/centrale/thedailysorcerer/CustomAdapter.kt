@@ -10,7 +10,7 @@ import com.centrale.thedailysorcerer.R
 import layout.Article
 
 
-class CustomAdapter(private val dataSet: ArrayList<Article?>, var listener: OnArticleSelectedListener) :
+class CustomAdapter(private val dataSet: ArrayList<Article?>, var aListener: OnArticleSelectedListener, val bListener: OnBottomReachedListener) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     /**
@@ -49,7 +49,7 @@ class CustomAdapter(private val dataSet: ArrayList<Article?>, var listener: OnAr
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
-        viewHolder.itemView.setOnClickListener { listener.onArticleSelected(dataSet[position]!!) }
+        viewHolder.itemView.setOnClickListener { aListener.onArticleSelected(dataSet[position]!!) }
         viewHolder.txtTitle.text = dataSet[position]?.title
         viewHolder.txtAuthor.text = dataSet[position]?.author
         viewHolder.txtDate.text = dataSet[position]?.date
@@ -61,13 +61,17 @@ class CustomAdapter(private val dataSet: ArrayList<Article?>, var listener: OnAr
     override fun getItemCount() = dataSet.size
 
     companion object {
-        private lateinit var listener: OnArticleSelectedListener
+        private lateinit var aListener: OnArticleSelectedListener
         private val TAG = "CustomAdapter"
     }
 
 
     public interface OnArticleSelectedListener{
         fun onArticleSelected(article: Article)
+    }
+
+    public interface OnBottomReachedListener {
+        fun onBottomReached()
     }
 
 

@@ -7,8 +7,8 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -18,16 +18,19 @@ import layout.Article
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListener {
+class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListener, CustomAdapter.OnBottomReachedListener {
 
     val TAG:String = "ListActivity"
 
-    val uriContentSources:String = "https://newsapi.org/v2/everything?apiKey=cfe66a38eadc47448a0eb945629ba205&language=fr&sources="
+    //my key : cfe66a38eadc47448a0eb945629ba205
+
+    val uriContentSources:String = "https://newsapi.org/v2/everything?apiKey=d31f5fa5f03443dd8a1b9e3fde92ec34&language=fr&sources="
 
     var thisSource: Source? = null
     var thisPage:Int = 1
 
     var listFragment: ListArticlesFragment? = null
+    var loading: Boolean = false;
 
     lateinit var queue: RequestQueue
 
@@ -75,11 +78,6 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
                 thisPage = 1
                 listFragment?.clearArticles()
                 getContent()
-                //Log.d(TAG, listFragment?.viewAdapter.toString())
-
-                //listFragment?.viewAdapter!!.notifyDataSetChanged()
-
-
 
 
             }
@@ -96,6 +94,10 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
 
     fun getContent() {
         // Request a string response from the provided URL.
+        if(loading)
+            return
+
+        loading = true;
         val stringReq : StringRequest = object : StringRequest(
 
             Method.GET, uriContentSources+ thisSource!!.id+"&page="+thisPage,
@@ -125,11 +127,13 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
                     //supportFragmentManager.beginTransaction().detach(listFragment!!).attach(listFragment!!).commit()
                 }
                 listFragment!!.showArticles(theseArticles)
+                loading = false;
 
             },
             Response.ErrorListener {
                 //Toast.makeText(this, "That didn't work!", Toast.LENGTH_SHORT).show()
                 Log.d(TAG,"didn't work : "+uriContentSources+ thisSource!!.id+"&page="+thisPage)
+                loading = false;
             }
         ){
             override fun getHeaders(): Map<String, String> {
@@ -158,6 +162,15 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
 
     }
 
+
+    override fun onBottomReached() {
+        if (loading)
+            return
+
+        thisPage++
+        Log.d(TAG, "$thisPage")
+        getContent()
+    }
 
 
 }

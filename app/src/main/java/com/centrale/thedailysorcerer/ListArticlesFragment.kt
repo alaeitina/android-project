@@ -2,11 +2,11 @@ package com.centrale.thedailysorcerer
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,10 +39,13 @@ class ListArticlesFragment : Fragment() {
         super.onAttach(context)
 
         if (context is CustomAdapter.OnArticleSelectedListener) {
-            listener = context
-            Log.d(TAG, "listener is : "+listener.toString())
-        } else {
-            Log.d(TAG, "listener is not")
+            aListener = context
+        }
+        if (context is CustomAdapter.OnBottomReachedListener) {
+            bListener = context
+        }
+        else {
+            Log.d(TAG, "aListener is not")
             throw RuntimeException(
                 context.toString()
                         + " must implement OnListFragmentInteractionListener"
@@ -63,7 +66,7 @@ class ListArticlesFragment : Fragment() {
 
 
         viewManager = LinearLayoutManager(context)
-        viewAdapter = CustomAdapter(dataset, listener)
+        viewAdapter = CustomAdapter(dataset, aListener, bListener)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
             // use this setting to improve performance if you know that changes
@@ -82,6 +85,15 @@ class ListArticlesFragment : Fragment() {
         /*val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
         recyclerView.adapter = CustomAdapter(dataset)*/
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)) {
+                    bListener.onBottomReached()
+                }
+            }
+        })
+
         return view
 
 
@@ -94,7 +106,9 @@ class ListArticlesFragment : Fragment() {
         lateinit var viewManager: LinearLayoutManager
         lateinit var viewAdapter: CustomAdapter
         lateinit var recyclerView: RecyclerView
-        private lateinit var listener: CustomAdapter.OnArticleSelectedListener
+        private lateinit var aListener: CustomAdapter.OnArticleSelectedListener
+        private lateinit var bListener: CustomAdapter.OnBottomReachedListener
+
         private lateinit var bundleState:Bundle
         var dataset: ArrayList<Article?> = arrayListOf<Article?>()
         //private var listState:Parcelable? = null
@@ -105,16 +119,22 @@ class ListArticlesFragment : Fragment() {
     }
 
     fun showArticles(newArticles: ArrayList<Article?>) {
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = CustomAdapter(newArticles, listener)
-        dataset = newArticles
+        //recyclerView.layoutManager = LinearLayoutManager(activity)
+        Log.d(TAG, "old : ${dataset.size}")
+        for(i in 0 until newArticles.size){
+            dataset.add(newArticles[i])
+        }
+        //dataset = newArticles
+        recyclerView.adapter!!.notifyDataSetChanged()
+
+
         Log.d(TAG, dataset.toString())
     }
 
 
     override fun onPause() {
-        Log.d(TAG, "is on Pause")
-        Log.d(TAG, "dataset : $dataset")
+        //Log.d(TAG, "is on Pause")
+        //Log.d(TAG, "dataset : $dataset")
         super.onPause()
         bundleState = Bundle()
         bundleState.putParcelableArrayList("state", dataset)
