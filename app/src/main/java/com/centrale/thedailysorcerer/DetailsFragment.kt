@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
+import com.squareup.picasso.Picasso
 import layout.Article
 
 
@@ -31,16 +33,22 @@ class DetailsFragment : Fragment() {
         val txtDate:TextView = view.findViewById(R.id.txtDate)
         val txtDescription:TextView = view.findViewById(R.id.txtDescription)
         val txtSource:TextView = view.findViewById(R.id.txtSource)
+        val imgArticle:ImageView = view.findViewById(R.id.imgArticle)
         val btnClose:Button = view.findViewById(R.id.close)
         val btnUrl:Button = view.findViewById(R.id.openurl)
 
         val article = arguments!!.getParcelable<Article>("article")
 
         txtTitle.setText(article!!.title)
-        txtAuthor.setText(article.author)
+        if (article.author == "null") {
+            txtAuthor.text = "Auteur non déclaré"
+        } else {
+            txtAuthor.text = article.author
+        }
         txtDate.setText(article.date?.substring(0, 10) + " " + article.date?.substring(11, 16))
         txtDescription.setText(article.description)
         txtSource.setText(article.source!!.name)
+        Picasso.get().load(article.imgurl).into(imgArticle)
 
 
         btnClose.setOnClickListener {

@@ -9,14 +9,15 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="440dp"
-        android:layout_height="777dp"
+        android:layout_width="0dp"
+        android:layout_height="1000dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/c766316bbbc9f93539688d30e0af8d4a" />
+        app:srcCompat="@drawable/c766316bbbc9f93539688d30e0af8d4a"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/textView"
@@ -25,12 +26,13 @@
         android:text="The Daily Sorcerer"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.61" />
+        app:layout_constraintVertical_bias="0.58000004" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -40,7 +42,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="0.39"
         app:srcCompat="@drawable/hat" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="De Tina ALAEI"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

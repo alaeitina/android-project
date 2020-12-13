@@ -56,8 +56,8 @@ class CustomAdapter(private val dataSet: ArrayList<Article?>, var aListener: OnA
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
         viewHolder.itemView.setOnClickListener { aListener.onArticleSelected(dataSet[position]!!) }
-        if (dataSet[position]?.title?.length!! > 63) {
-            viewHolder.txtTitle.text = dataSet[position]?.title?.substring(0, 60) + "..."
+        if (dataSet[position]?.title?.length!! > 73) {
+            viewHolder.txtTitle.text = dataSet[position]?.title?.substring(0, 70) + "..."
         } else {
             viewHolder.txtTitle.text = dataSet[position]?.title
         }
