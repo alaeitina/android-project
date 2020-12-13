@@ -28,6 +28,7 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
     var thisPage:Int = 1
 
     var listFragment: ListArticlesFragment? = null
+    var detailsFragment: DetailsFragment? = null
     var loading: Boolean = false;
 
 
@@ -115,11 +116,15 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
         Log.d(TAG, item.itemId.toString())
-        Log.d(TAG, "Montre moi : "+R.menu.menu.toString())
         thisSource = listSources.get(item.itemId)
         Log.d(TAG, "$thisSource")
         thisPage = 1
-        listFragment?.clearArticles()
+        listFragment!!.clearArticles()
+        if (detailsFragment != null) {
+            /*supportFragmentManager.beginTransaction().remove(detailsFragment!!).commit()
+            detailsFragment = null*/
+            this.supportFragmentManager.popBackStackImmediate()
+        }
         getContent()
         return true
     }
@@ -186,11 +191,10 @@ class ListActivity : AppCompatActivity(), CustomAdapter.OnArticleSelectedListene
 
 
     override fun onArticleSelected(article: Article) {
-        val detailsFragment =
-            DetailsFragment.newInstance(article)
+        detailsFragment = DetailsFragment.newInstance(article)
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragment, detailsFragment, "articleDetails")
+            .replace(R.id.fragment, detailsFragment!!, "articleDetails")
             .addToBackStack(null)
             .commit()
 
