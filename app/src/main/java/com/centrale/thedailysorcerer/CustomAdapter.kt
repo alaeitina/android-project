@@ -61,8 +61,8 @@ class CustomAdapter(private val dataSet: ArrayList<Article?>, var aListener: OnA
         } else {
             viewHolder.txtTitle.text = dataSet[position]?.title
         }
-        if (dataSet[position]?.author?.length!! > 23) {
-            viewHolder.txtAuthor.text = dataSet[position]?.author?.substring(0, 20) + "..."
+        if (dataSet[position]?.author?.length!! > 38) {
+            viewHolder.txtAuthor.text = dataSet[position]?.author?.substring(0, 35) + "..."
         } else if (dataSet[position]?.author == "null") {
             viewHolder.txtAuthor.text = "Auteur non déclaré"
         } else {
