@@ -1,5 +1,6 @@
 package com.centrale.thedailysorcerer
 
+import android.graphics.drawable.Drawable
 import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -13,6 +14,17 @@ class Source (var id: String?, var name: String?):Parcelable {
     init {
         this.id = id
         this.name = name
+    }
+
+    fun getIcon(): Int = when (this.id) {
+        "google-news-fr" -> R.drawable.google_news
+        "le-monde" -> R.drawable.le_monde
+        "lequipe" -> R.drawable.l_equipe
+        "les-echos" -> R.drawable.les_echos
+        "liberation" -> R.drawable.liberation
+        else -> {
+            R.drawable.ic_menu
+        }
     }
 
     /*fun getId(): String? {

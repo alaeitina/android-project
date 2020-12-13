@@ -3,11 +3,14 @@ package eu.corellis.centrale.activitylifecycle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.centrale.thedailysorcerer.ListArticlesFragment
 import com.centrale.thedailysorcerer.R
+import com.squareup.picasso.Picasso
 import layout.Article
+import java.lang.System.load
 
 
 class CustomAdapter(private val dataSet: ArrayList<Article?>, var aListener: OnArticleSelectedListener, val bListener: OnBottomReachedListener) :
@@ -23,13 +26,16 @@ class CustomAdapter(private val dataSet: ArrayList<Article?>, var aListener: OnA
         val txtTitle: TextView
         val txtAuthor: TextView
         val txtDate: TextView
-        //val imgArticle: ImageView
+        val imgArticleL: ImageView
+        val imgArticleR: ImageView
 
         init {
             txtTitle = v.findViewById(R.id.txtTitle)
             txtAuthor = v.findViewById(R.id.txtAuthor)
             txtDate = v.findViewById(R.id.txtDate)
-            //imgArticle = v.findViewById(R.id.imgArticle)
+            imgArticleL = v.findViewById(R.id.imgArticleL)
+            imgArticleR = v.findViewById(R.id.imgArticleR)
+
         }
 
     }
@@ -62,6 +68,18 @@ class CustomAdapter(private val dataSet: ArrayList<Article?>, var aListener: OnA
         } else {
             viewHolder.txtAuthor.text = dataSet[position]?.author
         }
+        if (position%2 == 0) {
+            viewHolder.imgArticleR.visibility = View.GONE
+            viewHolder.imgArticleL.visibility = View.VISIBLE
+            dataSet[position]?.source?.getIcon()?.let { viewHolder.imgArticleL.setImageResource(it) }
+            //Picasso.get().load(dataSet[position]?.imgurl).resize(50,50).centerCrop().into(viewHolder.imgArticleL)
+        } else {
+            viewHolder.imgArticleL.visibility = View.GONE
+            viewHolder.imgArticleR.visibility = View.VISIBLE
+            dataSet[position]?.source?.getIcon()?.let { viewHolder.imgArticleR.setImageResource(it) }
+            //Picasso.get().load(dataSet[position]?.imgurl).resize(50,50).centerCrop().into(viewHolder.imgArticleR)
+        }
+
         viewHolder.txtDate.text = dataSet[position]?.date?.substring(0, 10) + " " + dataSet[position]?.date?.substring(11, 16)
     }
 

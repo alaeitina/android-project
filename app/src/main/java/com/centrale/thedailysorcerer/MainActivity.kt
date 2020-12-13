@@ -18,7 +18,8 @@ class MainActivity : AppCompatActivity() {
 
     val TAG:String = "Main Activity"
     //my key : cfe66a38eadc47448a0eb945629ba205
-    val uriListSources:String = "https://newsapi.org/v2/sources?apiKey=00baf9a536cd4b70b7850fc8c241ea90&language=fr"
+    //my second key : 00baf9a536cd4b70b7850fc8c241ea90
+    val uriListSources:String = "https://newsapi.org/v2/sources?apiKey=cfe66a38eadc47448a0eb945629ba205&language=fr"
     //val uriContentSources:String = "https://newsapi.org/v2/everything?apiKey=cfe66a38eadc47448a0eb945629ba205&language=fr&sources=google-news-fr"
 
 
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder?= DialogActivity@this?.let {
             AlertDialog.Builder(it)
         }
-        builder?.setMessage("La connexion n'a pas pu être établie. Vérifiez votre connexion à l'internet mondial.\n Ou peut-être avez vous effectué trop de requêtes ...?")
+        builder?.setMessage("La connexion n'a pas pu être établie. Vérifiez votre connexion à internet.\n... Ou peut-être avez vous effectué trop de requêtes ?")
             ?.setTitle("Echec de connexion")
             ?.setPositiveButton("Réessayer",
                 DialogInterface.OnClickListener({dialog, which ->
